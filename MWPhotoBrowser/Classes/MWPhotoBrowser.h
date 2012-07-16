@@ -19,13 +19,20 @@
 #define MWLog(x, ...)
 #endif
 
-// Delgate
+// DataSource
 @class MWPhotoBrowser;
-@protocol MWPhotoBrowserDelegate <NSObject>
+@protocol MWPhotoBrowserDataSource <NSObject>
 - (NSUInteger)numberOfPhotosInPhotoBrowser:(MWPhotoBrowser *)photoBrowser;
 - (id<MWPhoto>)photoBrowser:(MWPhotoBrowser *)photoBrowser photoAtIndex:(NSUInteger)index;
 @optional
 - (MWCaptionView *)photoBrowser:(MWPhotoBrowser *)photoBrowser captionViewForPhotoAtIndex:(NSUInteger)index;
+@end
+
+// Delgate
+@class MWPhotoBrowser;
+@protocol MWPhotoBrowserDelegate <NSObject>
+@optional
+- (void)photoBrowser:(MWPhotoBrowser *)photoBrowser didChangeToPage:(NSUInteger)pageNumber;
 @end
 
 // MWPhotoBrowser
@@ -36,7 +43,7 @@
 
 // Init
 - (id)initWithPhotos:(NSArray *)photosArray  __attribute__((deprecated)); // Depreciated
-- (id)initWithDelegate:(id <MWPhotoBrowserDelegate>)delegate;
+- (id)initWithDataSource:(id<MWPhotoBrowserDataSource>)dataSource delegate:(id<MWPhotoBrowserDelegate>)delegate;
 
 // Reloads the photo browser and refetches data
 - (void)reloadData;

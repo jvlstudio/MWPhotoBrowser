@@ -121,7 +121,7 @@
     self.photos = photos;
 	
 	// Create browser
-	MWPhotoBrowser *browser = [[MWPhotoBrowser alloc] initWithDelegate:self];
+	MWPhotoBrowser *browser = [[MWPhotoBrowser alloc] initWithDataSource:self delegate:self];
     browser.displayActionButton = YES;
     //browser.wantsFullScreenLayout = NO;
     //[browser setInitialPageIndex:2];
@@ -147,7 +147,7 @@
 	
 }
 
-#pragma mark - MWPhotoBrowserDelegate
+#pragma mark - MWPhotoBrowserDataSource
 
 - (NSUInteger)numberOfPhotosInPhotoBrowser:(MWPhotoBrowser *)photoBrowser {
     return _photos.count;
@@ -164,6 +164,13 @@
 //    MWCaptionView *captionView = [[MWCaptionView alloc] initWithPhoto:photo];
 //    return [captionView autorelease];
 //}
+
+
+#pragma mark - MWPhotoBrowserDelegate
+
+- (void)photoBrowser:(MWPhotoBrowser *)photoBrowser didChangeToPage:(NSUInteger)pageNumber {
+    NSLog(@"Went to Page: %d", pageNumber);
+}
 
 @end
 
